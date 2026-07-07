@@ -1,0 +1,65 @@
+@model ParkingSystem.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Hapus Kendaraan";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+            <h3>Hapus Kendaraan</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-warning">
+                <strong>Perhatian!</strong><br />
+                Apakah Anda yakin ingin menghapus data kendaraan berikut?
+            </div>
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="200">Nomor Polisi</th>
+                    <td>@Model.PlateNumber</td>
+                </tr>
+
+                <tr>
+                    <th>Nama Pemilik</th>
+                    <td>@Model.OwnerName</td>
+                </tr>
+
+                <tr>
+                    <th>Jenis Kendaraan</th>
+                    <td>@Model.VehicleType</td>
+                </tr>
+
+                <tr>
+                    <th>Warna</th>
+                    <td>@Model.Color</td>
+                </tr>
+
+            </table>
+
+            <form asp-action="Delete">
+
+                <input asp-for="Id" type="hidden" />
+
+                <button class="btn btn-danger">
+                    Ya, Hapus
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Batal
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
