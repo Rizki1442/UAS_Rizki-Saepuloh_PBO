@@ -1,0 +1,128 @@
+@model IEnumerable<ParkingSystem.Models.ParkingTransaction>
+
+@{
+    ViewData["Title"] = "Transaksi Parkir";
+}
+
+<div class="container mt-4">
+
+    <partial name="_Alert" />
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+            <h3 class="mb-0">Transaksi Parkir</h3>
+
+            <a asp-action="CheckIn"
+               class="btn btn-light">
+                + Parkir Masuk
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>No Polisi</th>
+                        <th>Petugas</th>
+                        <th>Masuk</th>
+                        <th>Keluar</th>
+                        <th>Status</th>
+                        <th>Total Bayar</th>
+                        <th width="220">Aksi</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.Vehicle?.PlateNumber</td>
+
+                                <td>@item.Officer?.Name</td>
+
+                                <td>
+                                    @item.EntryTime.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+
+                                <td>
+                                    @(item.ExitTime?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                                </td>
+
+                                <td>
+
+                                    @if (item.Status == "Masuk")
+                                    {
+                                        <span class="badge bg-success">
+                                            Masuk
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Keluar
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    Rp @item.TotalFee.ToString("N0")
+                                </td>
+
+                                <td>
+
+                                    @if (item.Status == "Masuk")
+                                    {
+                                        <a asp-action="CheckOut"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-danger btn-sm">
+                                            Parkir Keluar
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Print"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-primary btn-sm">
+                                            Cetak Tiket
+                                        </a>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="7" class="text-center">
+
+                                Belum ada transaksi parkir.
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
